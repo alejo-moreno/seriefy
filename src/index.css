@@ -1,0 +1,246 @@
+/*Love_Heals Palette*/
+body{
+    background-color: #bdc3c7;
+    margin: 0;
+    font-family: Roboto;
+}
+
+#app-container{
+    width: 100%;
+    overflow: hidden;
+}
+
+#app-header{
+    width: 100%;
+    height: 10vh;
+    position: fixed;
+    background-color: #070628;
+    text-align: center;
+    z-index: 10;  
+}
+
+#app-header h1{
+    line-height: 10vh;
+    margin: 0;
+    color: white;
+}
+
+#app-header h1 a{
+    color: white;
+    text-decoration: none;
+}
+
+#app-body{
+    padding-top: 15vh;
+    width: 80%;
+    margin: 0 auto;
+    min-height: 75vh;    
+}
+
+#app-footer{
+    width: 100%;
+    min-height: 10vh;
+    text-align: center;
+}
+
+#app-footer p{
+  margin: 0 auto;
+  width:  40%;
+  text-align: center;
+  padding-top: 30px;
+  border-top: 1px solid #7f8;
+}
+
+.tv-show{
+    width: 100%;
+    overflow: hidden;
+    padding: 16px;
+    background-color: white;
+    margin-bottom: 16px;
+    position: relative;
+}
+
+.tv-show:hover{
+    background-color: #EE213F;
+    color: white;
+}
+
+.tv-show.liked {
+  background-color: #EE213F;
+}
+ 
+.tv-show.liked:hover {
+  background-color: #F1A9A0;
+}
+ 
+.tv-show i.like {
+  background: transparent;
+  border: 0;
+  outline: 0;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 22px;
+  cursor: pointer;
+  transition: all 1s ease;
+}
+ 
+.tv-show .count {
+  border: solid 1px ccc;
+  font-weight: bold;
+  font-size: 22px;
+  position: absolute;
+  top: 10px;
+  right: 60px;
+}
+ 
+.tv-show button.chat {
+  background: transparent;
+  font-size: 22px;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  position: absolute;
+  bottom: 10px;
+  right: 15px;
+}
+ 
+.tv-show.liked i.like {
+  font-size: 40px;
+}
+ 
+
+.tv-show .img-container{
+    width: 20%;
+}
+
+.tv-show img{    
+    max-width: 100%;
+}
+
+.tv-show .info{
+    width: 70%;
+}
+
+.chat-container {
+  width: 100%;
+  overflow: hidden;
+  padding: 16px;
+  background-color: white;
+}
+
+.chat-container .img-container {
+  width: 20%;
+}
+
+.chat-container img {
+   max-width: 100%;
+}
+ 
+.chat-container .chat-window {
+  width: 75%;
+}
+ 
+.chat-container .chat-body {
+   height: 200px;
+   border: 1px solid #efefef;
+   padding: 10px;
+   margin-bottom: 5px;
+   overflow : auto;
+}
+ 
+.chat-container .chat-nick {
+  width: 25%;
+  font-size: 16px;
+  margin-left: 5px;
+}
+ 
+.chat-container .chat-input {
+   width: 65%;
+   font-size: 16px;
+}
+
+.left{
+    float: left;
+}
+
+.right{
+    float: right;
+}
+
+#app-body .search-form{
+    width: 50%;
+    margin: 0 auto 20px;
+    text-align: center;
+    font-size: 22px;
+}
+
+#app-body .search-form input[type="text"]{
+    padding: 12px 16px;
+    border-radius: 6px;
+    width: 300px;
+}
+
+/*
+**Spinner
+*/
+
+.loader,
+.loader:before,
+.loader:after {
+  background: #070628;
+  -webkit-animation: load1 1s infinite ease-in-out;
+  animation: load1 1s infinite ease-in-out;
+  width: 1em;
+  height: 4em;
+}
+.loader:before,
+.loader:after {
+  position: absolute;
+  top: 0;
+  content: '';
+}
+.loader:before {
+  left: -1.5em;
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+.loader {
+  color: #070628;
+  text-indent: -9999em;
+  margin: 88px auto;
+  position: relative;
+  font-size: 11px;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+.loader:after {
+  left: 1.5em;
+}
+@-webkit-keyframes load1 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 0;
+    height: 4em;
+  }
+  40% {
+    box-shadow: 0 -2em;
+    height: 5em;
+  }
+}
+@keyframes load1 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 0;
+    height: 4em;
+  }
+  40% {
+    box-shadow: 0 -2em;
+    height: 5em;
+  }
+}
