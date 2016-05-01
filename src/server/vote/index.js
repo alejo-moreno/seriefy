@@ -1,13 +1,6 @@
 import Vote from 'src/server/models';
 export function incrementVote(id, callback) {
 
-    let onSave = function (vote) {
-        return function (err) {
-            if (err) callback(err);
-            callback(null, vote);
-        }
-    }
-
     Vote.findOne({ showId: id }, (err, doc) => {
         if (!err && doc) {
             doc.count++;
@@ -21,7 +14,7 @@ export function incrementVote(id, callback) {
             vote.count = 1;
             vote.save((err) => {
                 if (err) return callback(err);
-                callback(null, doc);
+                callback(null, vote);
             });
         }
     });

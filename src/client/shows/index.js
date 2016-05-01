@@ -3,7 +3,10 @@ import page from 'page';
 import {getShows, searchShows} from 'src/client/api-client';
 import $tvShowsContainer from 'src/client/tvshows-container';
 import qs from 'qs';
+import socketio from 'socket.io-client';
 
+
+let socket = socketio();
 
 page('/shows', function (ctx, next) {
     $tvShowsContainer.find('.tv-show').remove();
@@ -12,13 +15,26 @@ page('/shows', function (ctx, next) {
     $loader.appendTo($tvShowsContainer);
 
     $('#search-input').val('');
+    let date = new Date()
+    let today = new Date(date.getFullYear(), date.getMonth(), date.getDate())
 
-    getShows(function (shows) {
-        $tvShowsContainer.find('.loader').remove();
-        renderShows(shows);
-    });
-
+    if (!localStorage.shows || new Date(localStorage.syncDate) < today) {
+        getShows(function (shows) {
+            $tvShowsContainer.find('.loader').remove();
+            localStorage.shows = JSON.stringify(shows);
+            localStorage.syncDate = today;
+            renderShows(shows);
+        });
+    }
+    else {
+        let shows = JSON.parse(localStorage.shows);
+        socket.emit('shows', shows);
+    }
 });
+
+socket.on('shows:done', shows => {
+    renderShows(shows);
+})
 
 page('/search', function (ctx, next) {
 

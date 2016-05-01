@@ -12,9 +12,23 @@ page('/chat/:showId', function (ctx, next) {
 });
 
 function renderChat(id) {
-    $.ajax('/api/show/' + id, {
-        success: function (show, textStatus, xhr) {
-            var chatTemplate = `<article data-id=${id} class="chat-container">
+    if (localStorage.shows) {
+        let shows = JSON.parse(localStorage.shows);
+        let show = shows.filter((show) => show.id == id)[0];
+        var $chat = $(drawChat(id, show));
+        $tvShowsContainer.append($chat.fadeIn(1000))
+    } else {
+        $.ajax('/api/show/' + id, {
+            success: function (show, textStatus, xhr) {
+                var $chat = $(drawChat(id, show));
+                $tvShowsContainer.append($chat.fadeIn(1000))
+            }
+        })
+    }
+}
+
+function drawChat(id, show) {
+    return `<article data-id=${id} class="chat-container">
           <div class="left img-container">
             <img src=${show.image ? show.image.medium : ''} alt=${show.name + ' Logo'}>
           </div>
@@ -25,10 +39,6 @@ function renderChat(id) {
              <input type="text" name="message" class="chat-input" disabled />
           </div>
         </article>`;
-            var $chat = $(chatTemplate)
-            $tvShowsContainer.append($chat.fadeIn(1000))
-        }
-    })
 }
 
 

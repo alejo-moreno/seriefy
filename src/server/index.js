@@ -3,7 +3,7 @@ import express from 'express';
 import api from 'src/server/api';
 import mongoose from 'mongoose';
 import socketio from 'socket.io';
-import {incrementVote} from 'src/server/vote';
+import {addVotes, incrementVote} from 'src/server/vote';
 
 const app = express();
 const server = http.createServer(app);
@@ -18,6 +18,12 @@ app.use('/api', api);
 
 io.on('connection', socket => {
     console.log(`Cliente ${socket.id} conectado`);
+
+    socket.on('shows', (shows) => {
+        addVotes(shows, (shows) => {
+            socket.emit('shows:done', shows);
+        })
+    });
 
     socket.on('vote', (id) => {
         incrementVote(id, (err, vote) => {
