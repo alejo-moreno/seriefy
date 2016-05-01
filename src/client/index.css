@@ -85,7 +85,7 @@ body{
   transition: all 1s ease;
 }
  
-.tv-show .count {
+.tv-show .votes {
   border: solid 1px ccc;
   font-weight: bold;
   font-size: 22px;
@@ -94,7 +94,7 @@ body{
   right: 60px;
 }
  
-.tv-show button.chat {
+.tv-show i.chat {
   background: transparent;
   font-size: 22px;
   border: 0;

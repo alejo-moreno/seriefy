@@ -1,0 +1,9 @@
+ $.get('/api/votes', function (votes) {                
+                shows = shows.map(show => {
+                    let vote = votes.filter(vote => vote.showId === show.id)[0];
+                    show.votes = vote ? vote.count : 0;
+                    return show;
+                })
+
+                fn(shows);
+            })
