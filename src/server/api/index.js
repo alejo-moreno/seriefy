@@ -1,6 +1,7 @@
 import express from 'express';
 import tvmaze from 'tv-maze';
 import {getVotes, addVotes, incrementVote} from 'src/server/vote';
+import {getUser} from 'src/server/users';
 
 const router = express.Router();
 const client = tvmaze.createClient();
@@ -44,7 +45,6 @@ router.get('/search', (req, res) => {
 })
 
 
-
 router.post('/vote/:id', (req, res) => {
 
     let id = req.params.id;
@@ -62,6 +62,17 @@ router.get('/votes', (req, res) => {
         if (err) return res.sendStatus(500).json(err);
         res.json(docs);
     });
+});
+
+router.get('/profile', (req, res) => {
+    console.log(req.user);
+    if (req.user) {
+
+        getUserById(req.user, (err, user) => {
+            if (err) return res.sendStatus(500).json(err);
+            return res.json(user);
+        });
+    }
 });
 
 

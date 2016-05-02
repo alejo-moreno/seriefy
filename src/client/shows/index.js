@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import page from 'page';
-import {getShows, searchShows} from 'src/client/api-client';
+import {getProfile, getShows, searchShows} from 'src/client/api-client';
 import $tvShowsContainer from 'src/client/tvshows-container';
 import qs from 'qs';
 import socketio from 'socket.io-client';
@@ -11,10 +11,14 @@ let socket = socketio();
 page('/shows', function (ctx, next) {
     $tvShowsContainer.find('.tv-show').remove();
     $tvShowsContainer.find('.chat-container').remove();
+
     var $loader = $('<div class="loader">Loader</div>')
     $loader.appendTo($tvShowsContainer);
 
     $('#search-input').val('');
+
+    getProfile(user => $('#search-input').val(user));
+
     let date = new Date()
     let today = new Date(date.getFullYear(), date.getMonth(), date.getDate())
 
