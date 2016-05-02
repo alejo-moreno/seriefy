@@ -11,6 +11,20 @@ export function getShows(fn) {
     })
 }
 
+export function getProfile(fn) {
+    $.ajax({
+        url: '/api/profile',
+        success: function (profile, textStatus, xhr) {
+            console.log('api profile ' + profile);
+            fn(profile);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            console.log(xhr.responseText);
+            fn(thrownError);
+        }
+    })
+}
+
 export function searchShows(busqueda, fn) {
     $.ajax({
         url: '/api/search',

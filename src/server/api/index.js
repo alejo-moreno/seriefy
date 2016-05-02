@@ -1,6 +1,7 @@
 import express from 'express';
 import tvmaze from 'tv-maze';
 import {getVotes, addVotes, incrementVote} from 'src/server/vote';
+import {getUser} from 'src/server/users';
 
 const router = express.Router();
 const client = tvmaze.createClient();
@@ -44,7 +45,6 @@ router.get('/search', (req, res) => {
 })
 
 
-
 router.post('/vote/:id', (req, res) => {
 
     let id = req.params.id;
@@ -63,6 +63,26 @@ router.get('/votes', (req, res) => {
         res.json(docs);
     });
 });
+
+router.get('/profile', isLoggedIn, (req, res) => {
+    if (req.user) {
+        getUserById(req.user, (err, user) => {
+            if (err) return res.sendStatus(500).json(err);
+            console.log(user.name);
+            return res.json(user);
+        });
+    }
+});
+
+function isLoggedIn(req, res, next) {
+    console.log('auth ' + req.isAuthenticated());
+    // if user is authenticated in the session, carry on
+    if (req.isAuthenticated())
+        return next();
+
+    // if they aren't redirect them to the home page
+    res.redirect('/');
+}
 
 
 export default router;
