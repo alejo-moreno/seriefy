@@ -64,27 +64,18 @@ router.get('/votes', (req, res) => {
     });
 });
 
-<<<<<<< HEAD
-router.get('/profile', (req, res) => {
-    console.log(req.user);
-    if (req.user) {
 
-        getUserById(req.user, (err, user) => {
-            if (err) return res.sendStatus(500).json(err);
-=======
 router.get('/profile', isLoggedIn, (req, res) => {
     if (req.user) {
         getUserById(req.user, (err, user) => {
             if (err) return res.sendStatus(500).json(err);
             console.log(user.name);
->>>>>>> local
             return res.json(user);
         });
     }
 });
 
-<<<<<<< HEAD
-=======
+
 function isLoggedIn(req, res, next) {
     console.log('auth ' + req.isAuthenticated());
     // if user is authenticated in the session, carry on
@@ -95,6 +86,5 @@ function isLoggedIn(req, res, next) {
     res.redirect('/');
 }
 
->>>>>>> local
 
 export default router;
