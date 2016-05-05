@@ -17,7 +17,14 @@ page('/shows', function (ctx, next) {
 
     $('#search-input').val('');
 
+<<<<<<< HEAD
     getProfile(user => $('#search-input').val(user));
+=======
+    getProfile(function (err, user) {
+        console.log(user)
+        $('#search-input').val(user)
+    });
+>>>>>>> local
 
     let date = new Date()
     let today = new Date(date.getFullYear(), date.getMonth(), date.getDate())

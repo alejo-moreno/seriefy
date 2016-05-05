@@ -15,9 +15,11 @@ export default function (passport) {
         done(null, user.id);
     });
 
+
+
     passport.deserializeUser(function (id, done) {
+        console.log("deserializo" + id);
         getUserById(id, user => {
-            console.log("deserializo" + user.id)
             done(null, user);
         });
     });

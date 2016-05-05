@@ -1,0 +1,9 @@
+{
+    // Customer module configs
+    "development": {
+        "passportConfig": {
+            "TWITTER_CONSUMER_KEY": "5VITTBSslQYsJ0m4xP2t8tO57",
+            "TWITTER_CONSUMER_SECRET": "BHRH4LqT9B0XV6hpfOh6ErB2aShURjsXkw2KHYQK7Qj2zo06MC"
+        }
+    }
+}

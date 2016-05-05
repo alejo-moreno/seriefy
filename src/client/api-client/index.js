@@ -16,6 +16,10 @@ export function getProfile(fn) {
         url: '/api/profile',
         success: function (profile, textStatus, xhr) {
             fn(profile);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            console.log(xhr.responseText);
+            fn(thrownError);
         }
     })
 }

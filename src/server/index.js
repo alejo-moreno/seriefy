@@ -25,11 +25,13 @@ app.use('/api', api);
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
+
 //app.use(cookieParser())
 app.use(expressSession({
     secret: 'my-secret-is-just-mine',
     resave: false,
     saveUninitialized: false
+
 }));
 
 //Configuración de Express
@@ -38,7 +40,10 @@ app.use(passport.session());
 
 //Rutas de passport
 app.get('/auth/twitter', passport.authenticate('twitter'));
+
 app.get('/auth/facebook', passport.authenticate('facebook'));
+
+
 
 app.get('/auth/twitter/callback', passport.authenticate('twitter',
     {
