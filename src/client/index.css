@@ -35,18 +35,11 @@ body{
     margin-right: 3px;
 }
 
-#app-header i{
-    display: inline-block;
-    color: white;
-    line-height: 6vh;
-    float: right;    
-    padding-right: 29px;
-}
 
 #app-header img{
     float: right;
     height: 5vh;
-    padding: 2px 29px 0px 10px;
+    padding: 3px 1px ;
 }
 
 #app-body{

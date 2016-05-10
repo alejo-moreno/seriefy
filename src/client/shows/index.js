@@ -23,9 +23,9 @@ page('/shows', function(ctx, next) {
 
     getProfile(function(user) {
         if (user.provider === 'twitter')
-            $("#app-header a[class~='twitter']").find('i').replaceWith(`<img src=${user.photo}></img>`);
+            $("#app-header a[class~='btn-twitter']").find('span').replaceWith(`<img src=${user.photo}></img>`);
         else if (user.provider === 'facebook')
-            $("#app-header a[class~='facebook']").find('i').replaceWith(`<img src=${user.photo}></img>`);
+            $("#app-header a[class~='btn-facebook']").find('span').replaceWith(`<img src=${user.photo}></img>`);
         $('#search-input').val(user.name)
     });
 
