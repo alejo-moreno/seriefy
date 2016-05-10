@@ -1,9 +1,5 @@
 import mongoose from 'mongoose';
 
-let VoteSchema = new mongoose.Schema({
-    showId: { type: Number },
-    count: { type: Number }
-})
 
 let UserSchema = new mongoose.Schema({
     name: String,
@@ -13,8 +9,7 @@ let UserSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now }
 });
 
-const Vote = mongoose.model('Vote', VoteSchema)
+
 const User = mongoose.model('User', UserSchema)
 
-module.exports = Vote;
 module.exports = User;

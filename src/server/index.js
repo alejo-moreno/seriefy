@@ -1,16 +1,20 @@
 import http from 'http';
 import express from 'express';
-import api from 'src/server/api';
-import mongoose from 'mongoose';
-import socketio from 'socket.io';
-import {addVotes, incrementVote} from 'src/server/vote';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import passport from 'passport';
 import expressSession from 'express-session';
+import mongoose from 'mongoose';
+import socketio from 'socket.io';
+import config from 'config';
+
+import api from 'src/server/api';
+import {addVotes, incrementVote} from 'src/server/vote';
+
 import passportIndex from 'src/server/passport';
 
 passportIndex(passport);
+
 
 const app = express();
 const server = http.createServer(app);
@@ -20,30 +24,28 @@ const io = socketio(server);
 mongoose.connect('mongodb://localhost/seriefy');
 
 
-app.use(express.static('public'));
-app.use('/api', api);
-
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-//app.use(cookieParser())
+app.use(cookieParser())
 app.use(expressSession({
     secret: 'my-secret-is-just-mine',
     resave: false,
     saveUninitialized: false
-
 }));
 
 //Configuración de Express
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(express.static('public'));
+app.use('/api', api);
+
+
+
 //Rutas de passport
 app.get('/auth/twitter', passport.authenticate('twitter'));
-
 app.get('/auth/facebook', passport.authenticate('facebook'));
-
-
 
 app.get('/auth/twitter/callback', passport.authenticate('twitter',
     {
@@ -56,6 +58,20 @@ app.get('/auth/facebook/callback', passport.authenticate('facebook',
         successRedirect: '/',
         failureRedirect: '/login'
     }));
+
+//rutas principales
+
+
+
+function ensureAuth(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next()
+    }
+
+    res.redirect('/')
+}
+
+
 
 //Manejo de socketio
 io.on('connection', socket => {

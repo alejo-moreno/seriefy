@@ -1,7 +1,7 @@
 import express from 'express';
 import tvmaze from 'tv-maze';
 import {getVotes, addVotes, incrementVote} from 'src/server/vote';
-import {getUser} from 'src/server/users';
+import {getUserById} from 'src/server/users';
 
 const router = express.Router();
 const client = tvmaze.createClient();
@@ -17,6 +17,7 @@ router.get('/show/:id', (req, res) => {
 })
 
 router.get('/shows', (req, res) => {
+    console.log('entre a router');
     var pagination = {
         q: 'page?',
         page: 1
@@ -67,9 +68,8 @@ router.get('/votes', (req, res) => {
 
 router.get('/profile', isLoggedIn, (req, res) => {
     if (req.user) {
-        getUserById(req.user, (err, user) => {
+        getUserById(req.user.provider_id, (err, user) => {
             if (err) return res.sendStatus(500).json(err);
-            console.log(user.name);
             return res.json(user);
         });
     }
@@ -77,8 +77,8 @@ router.get('/profile', isLoggedIn, (req, res) => {
 
 
 function isLoggedIn(req, res, next) {
-    console.log('auth ' + req.isAuthenticated());
     // if user is authenticated in the session, carry on
+    console.log(req.isAuthenticated())
     if (req.isAuthenticated())
         return next();
 

@@ -1,4 +1,4 @@
-import Vote from 'src/server/models';
+import Vote from 'src/server/models/vote';
 export function incrementVote(id, callback) {
 
     Vote.findOne({ showId: id }, (err, doc) => {

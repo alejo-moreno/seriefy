@@ -36,7 +36,13 @@ body{
     display: inline-block;
     color: white;
     line-height: 6vh;
-    float: right;
+    float: right;    
+    padding-right: 29px;
+}
+
+#app-header img{  
+    float: right;    
+    height: 5vh;
     padding-right: 29px;
 }
 

@@ -1,4 +1,4 @@
-import User from 'src/server/models';
+import User from 'src/server/models/user';
 
 
 export function getUserById(profileId, callback) {
