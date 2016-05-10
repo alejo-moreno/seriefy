@@ -27,9 +27,12 @@ body{
     position: fixed;
 }
 
-#app-header h1 a{
+#app-header  a{
     color: white;
     text-decoration: none;
+    float: right;    
+    border-radius: 7px;
+    margin-right: 3px;
 }
 
 #app-header i{
@@ -40,10 +43,10 @@ body{
     padding-right: 29px;
 }
 
-#app-header img{  
-    float: right;    
+#app-header img{
+    float: right;
     height: 5vh;
-    padding-right: 29px;
+    padding: 2px 29px 0px 10px;
 }
 
 #app-body{
