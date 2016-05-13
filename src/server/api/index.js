@@ -2,6 +2,7 @@ import express from 'express';
 import tvmaze from 'tv-maze';
 import {getVotes, addVotes, incrementVote} from 'src/server/vote';
 import {getUserById} from 'src/server/users';
+import cookieParser from 'cookie-parser';
 
 const router = express.Router();
 const client = tvmaze.createClient();
@@ -34,9 +35,9 @@ router.get('/shows', (req, res) => {
 router.get('/search', (req, res) => {
     let query = req.query.q;
 
-    client.search({ q: query }, (err, data) => {
-        if (err) res.sendStatus(500).json(err);
+    client.search(query, (err, data) => {
 
+        if (err) res.sendStatus(500).json(err);
         let shows = data.map(data => data.show);
 
         addVotes(shows, (shows) => {
@@ -66,26 +67,17 @@ router.get('/votes', (req, res) => {
 });
 
 
-router.get('/profile', isLoggedIn, (req, res) => {
-    if (req.user) {
+router.get('/profile', (req, res) => {
+    if (req.isAuthenticated()) {
         getUserById(req.user.provider_id, (err, user) => {
             if (err) return res.sendStatus(500).json(err);
+            res.cookie('username', user.name, { maxAge: 100000, httpOnly: false });
             return res.json(user);
         });
     }
+    return res.json(null);
 });
 
-
-
-function isLoggedIn(req, res, next) {
-    // if user is authenticated in the session, carry on
-    console.log("middle: " + req.isAuthenticated())
-    if (req.isAuthenticated())
-        return next();
-
-    // if they aren't redirect them to the home page
-    res.redirect('/');
-}
 
 
 export default router;

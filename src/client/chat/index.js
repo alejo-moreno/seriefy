@@ -2,19 +2,17 @@ import $ from 'jquery';
 import page from 'page';
 import $tvShowsContainer from 'src/client/tvshows-container';
 import {getProfile} from 'src/client/api-client';
-import xss from 'xss'
-import socketio from 'socket.io-client'
+import xss from 'xss';
+import socketio from 'socket.io-client';
+import cookiejs from 'cookies-js';
 
 let socket = socketio()
 
-page('/chat/:showId', function (ctx, next) {
+page('/chat/:showId', function(ctx, next) {
     $tvShowsContainer.find('.tv-show').remove();
 
-    getProfile(function (user) {
-        if (user)
-            renderChat(ctx.params.showId, user);
-        else
-            alert("no está loggeado");
+    getProfile(function(user) {
+        renderChat(ctx.params.showId, user);
     });
 
 });
@@ -27,61 +25,56 @@ function renderChat(id, user) {
         $tvShowsContainer.append($chat.fadeIn(1000))
     } else {
         $.ajax('/api/show/' + id, {
-            success: function (show, textStatus, xhr) {
+            success: function(show, textStatus, xhr) {
                 var $chat = $(drawChat(user, show));
                 $tvShowsContainer.append($chat.fadeIn(1000))
             }
-        })
+        });
     }
 }
 
 function drawChat(user, show) {
-    return `<article data-id=${show.id} class="chat-container">
+    var article = `<article data-id=${show.id} class="chat-container">
           <div class="left img-container">
             <img src=${show.image ? show.image.medium : ''} alt=${show.name + ' Logo'}>
           </div>
           <div class="right chat-window">
             <h1>${show.name}</h1>
-            <div class="chat-body"></div>
-             <input type="text" name="nickname" class="chat-nick" value="${user.name}" disabled/>
-             <input type="text" name="message" class="chat-input" disabled />
-          </div>
-        </article>`;
+            <div class="chat-body"></div>`;
+
+    if (user) {
+        article += `<input type="text" name="nickname" class="chat-nick" value="${user.name}" disabled/>
+             <input type="text" name="message" class="chat-input" disabled />`;
+    }
+    return article += `</div>  </article>`;
 }
 
 
-$tvShowsContainer.on('click', 'i.chat', function (ev) {
+$tvShowsContainer.on('click', 'i.chat', function(ev) {
     let $this = $(this)
     let $article = $this.closest('.tv-show')
     let id = $article.data('id')
-
-    socket.emit('join', 'show-' + id)
-    page('/chat/' + id)
+    socket.emit('join', 'show-' + id);
+    page('/chat/' + id);
 })
 
-$tvShowsContainer.on('keypress', '.chat-nick', function (ev) {
-    let $this = $(this)
-    let $chatInput = $('.chat-input')
 
-    $chatInput.prop('disabled', $this.val().length === 0)
-})
-
-$tvShowsContainer.on('keypress', '.chat-input', function (ev) {
-    let $this = $(this)
-    let nick = $('.chat-nick').val()
+$tvShowsContainer.on('keypress', '.chat-input', function(ev) {
+    let $this = $(this);
+    let nick = cookiejs.get('username');
 
     if (ev.which === 13) {
-        let message = $this.val()
+        let message = $this.val();
 
         socket.emit('message', { nick, message })
-        addMessage(nick, message)
+        addMessage(nick, message);
 
-        $this.val('')
+        $this.val('');
     }
 })
 
 
-socket.on('message', function (msg) {
+socket.on('message', function(msg) {
     let { nick, message } = msg
 
     addMessage(nick, message)
