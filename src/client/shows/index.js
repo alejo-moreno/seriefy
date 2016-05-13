@@ -11,9 +11,9 @@ import socketio from 'socket.io-client';
 let socket = socketio();
 
 page('/shows', function(ctx, next) {
-    console.log('entre a shows de client')
     $tvShowsContainer.find('.tv-show').remove();
     $tvShowsContainer.find('.chat-container').remove();
+    $('.search-form').show();
 
     var $loader = $('<div class="loader">Loader</div>')
     $loader.appendTo($tvShowsContainer);

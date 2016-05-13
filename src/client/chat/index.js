@@ -10,6 +10,7 @@ let socket = socketio()
 
 page('/chat/:showId', function(ctx, next) {
     $tvShowsContainer.find('.tv-show').remove();
+    $('.search-form').toggle();
     renderChat(ctx.params.showId);
 });
 
