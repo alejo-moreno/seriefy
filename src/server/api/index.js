@@ -76,9 +76,10 @@ router.get('/profile', isLoggedIn, (req, res) => {
 });
 
 
+
 function isLoggedIn(req, res, next) {
     // if user is authenticated in the session, carry on
-    console.log(req.isAuthenticated())
+    console.log("middle: " + req.isAuthenticated())
     if (req.isAuthenticated())
         return next();
 

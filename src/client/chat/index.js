@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import page from 'page';
 import $tvShowsContainer from 'src/client/tvshows-container';
+import {getProfile} from 'src/client/api-client';
 import xss from 'xss'
 import socketio from 'socket.io-client'
 
@@ -8,34 +9,41 @@ let socket = socketio()
 
 page('/chat/:showId', function (ctx, next) {
     $tvShowsContainer.find('.tv-show').remove();
-    renderChat(ctx.params.showId);
+
+    getProfile(function (user) {
+        if (user)
+            renderChat(ctx.params.showId, user);
+        else
+            alert("no está loggeado");
+    });
+
 });
 
-function renderChat(id) {
+function renderChat(id, user) {
     if (localStorage.shows) {
         let shows = JSON.parse(localStorage.shows);
         let show = shows.filter((show) => show.id == id)[0];
-        var $chat = $(drawChat(id, show));
+        var $chat = $(drawChat(user, show));
         $tvShowsContainer.append($chat.fadeIn(1000))
     } else {
         $.ajax('/api/show/' + id, {
             success: function (show, textStatus, xhr) {
-                var $chat = $(drawChat(id, show));
+                var $chat = $(drawChat(user, show));
                 $tvShowsContainer.append($chat.fadeIn(1000))
             }
         })
     }
 }
 
-function drawChat(id, show) {
-    return `<article data-id=${id} class="chat-container">
+function drawChat(user, show) {
+    return `<article data-id=${show.id} class="chat-container">
           <div class="left img-container">
             <img src=${show.image ? show.image.medium : ''} alt=${show.name + ' Logo'}>
           </div>
           <div class="right chat-window">
             <h1>${show.name}</h1>
             <div class="chat-body"></div>
-             <input type="text" name="nickname" class="chat-nick" placeholder="Enter your nickname..." />
+             <input type="text" name="nickname" class="chat-nick" value="${user.name}" disabled/>
              <input type="text" name="message" class="chat-input" disabled />
           </div>
         </article>`;

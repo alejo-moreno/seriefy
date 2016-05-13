@@ -14,12 +14,11 @@ export function getShows(fn) {
 export function getProfile(fn) {
     $.ajax({
         url: '/api/profile',
+        dataType: 'json',
         success: function (profile, textStatus, xhr) {
+            console.log(textStatus)
+            console.log(profile)
             fn(profile);
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            console.log(xhr.responseText);
-            fn(thrownError);
         }
     })
 }

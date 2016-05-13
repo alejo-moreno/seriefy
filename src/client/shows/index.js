@@ -10,7 +10,7 @@ import socketio from 'socket.io-client';
 
 let socket = socketio();
 
-page('/shows', function(ctx, next) {
+page('/shows', function (ctx, next) {
     console.log('entre a shows de client')
     $tvShowsContainer.find('.tv-show').remove();
     $tvShowsContainer.find('.chat-container').remove();
@@ -21,12 +21,11 @@ page('/shows', function(ctx, next) {
     $('#search-input').val('');
 
 
-    getProfile(function(user) {
+    getProfile(function (user) {
         if (user.provider === 'twitter')
             $("#app-header a[class~='btn-twitter']").find('span').replaceWith(`<img src=${user.photo}></img>`);
         else if (user.provider === 'facebook')
             $("#app-header a[class~='btn-facebook']").find('span').replaceWith(`<img src=${user.photo}></img>`);
-        $('#search-input').val(user.name)
     });
 
 
@@ -34,7 +33,7 @@ page('/shows', function(ctx, next) {
     let today = new Date(date.getFullYear(), date.getMonth(), date.getDate())
 
     if (!localStorage.shows || new Date(localStorage.syncDate) < today) {
-        getShows(function(shows) {
+        getShows(function (shows) {
             $tvShowsContainer.find('.loader').remove();
             localStorage.shows = JSON.stringify(shows);
             localStorage.syncDate = today;
@@ -51,7 +50,7 @@ socket.on('shows:done', shows => {
     renderShows(shows);
 })
 
-page('/search', function(ctx, next) {
+page('/search', function (ctx, next) {
 
     $tvShowsContainer.find('.tv-show').remove();
     var $loader = $('<div class="loader">Loader</div>')
@@ -66,7 +65,7 @@ page('/search', function(ctx, next) {
 
 function renderShows(shows) {
     $tvShowsContainer.find('.loader').remove();
-    shows.forEach(function(show) {
+    shows.forEach(function (show) {
         var $show = renderShow(show);
         $tvShowsContainer.append($show);
     });
