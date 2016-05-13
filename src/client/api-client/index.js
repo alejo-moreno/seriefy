@@ -14,8 +14,7 @@ export function getShows(fn) {
 export function getProfile(fn) {
     $.ajax({
         url: '/api/profile',
-        dataType: 'json',
-        success: function(profile, textStatus, xhr) {           
+        success: function(profile, textStatus, xhr) {
             fn(profile);
         }
     })

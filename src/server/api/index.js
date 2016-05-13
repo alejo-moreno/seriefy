@@ -75,7 +75,6 @@ router.get('/profile', (req, res) => {
             return res.json(user);
         });
     }
-    return res.json(null);
 });
 
 
